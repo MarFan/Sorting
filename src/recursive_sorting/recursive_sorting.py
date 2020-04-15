@@ -4,33 +4,24 @@ def merge( arrA, arrB ):
     # merged_arr = [0] * elements
     merged_arr = []
     # TO-DO
-    pos = 0 # merged_arr postition
     i = 0
     j = 0
-
-    while len(arrA) != 0 and len(arrB) != 0:
-        if arrA[0] < arrB[0]:
-            merged_arr.append(arrA[0])
-            arrA.remove(arrA[0])
-        else:
-            merged_arr.append(arrB[0])
-            arrB.remove(arrB[0])
-    if len(arrA) == 0:
-        merged_arr += arrB
-    else:
-        merged_arr += arrA
-
-    # while i < len(arrA) and j < len(arrB):
-    #     if arrA[i] < arrB[j]:
-    #         merged_arr[pos] = arrA[i]
-    #         i = i + 1
-    #     else:
-    #         merged_arr[pos] = arrB[j]
-    #         j = j + 1
-    #     pos += 1 # merged_arr position
     
-    return merged_arr
+    while len(merged_arr) < elements:
+        if i >= len(arrA):
+            merged_arr.append(arrB[j])
+            j += 1
+        elif j >= len(arrB):
+            merged_arr.append(arrA[i])
+            i += 1
+        elif arrA[i] < arrB[j]:
+            merged_arr.append(arrA[i])
+            i += 1
+        else:
+            merged_arr.append(arrB[j])
+            j += 1
 
+    return merged_arr
 
 # TO-DO: implement the Merge Sort function below USING RECURSION
 def merge_sort( arr ):
@@ -40,15 +31,10 @@ def merge_sort( arr ):
         return arr
     
     # Initial split        
-    lhs = arr[:len(arr) // 2]
-    rhs = arr[len(arr) // 2:]
-
-    left = merge_sort(lhs)
-    right = merge_sort(rhs)
+    lhs = merge_sort(arr[:len(arr) // 2])
+    rhs = merge_sort(arr[len(arr) // 2:])
     
-    return merge(left, right)
-
-print(merge_sort([2,8,6,0,1,7,5,4,3,9]))
+    return merge(lhs, rhs)
 
 # STRETCH: implement an in-place merge sort algorithm
 def merge_in_place(arr, start, mid, end):
